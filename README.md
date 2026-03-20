@@ -13,12 +13,12 @@ NOWPAYMENTS_IPN_SECRET= your_real_crypto_wallet_ipn
 ### Run and Test locally
 Open powershell and navigate to the server folder and run server.json
 Open second powershell and run this command
-
+```
 Invoke-RestMethod -Uri "http://localhost:3000/create-payment" `
 >> -Method POST `
 >> -Headers @{ "Content-Type" = "application/json" } `
 >> -Body '{"amount":100,"currency":"eth","userId":"test123"}'
-
+```
 You should see the response in the local Server
 You should see another response online in your wallet at :: account.nowpayments.io/payments
 
