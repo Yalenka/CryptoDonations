@@ -11,7 +11,14 @@ NOWPAYMENTS_API_KEY= your_real_crypto_wallet_api
 NOWPAYMENTS_IPN_SECRET= your_real_crypto_wallet_ipn
 ```
 ### Install the `node_modules` and run the `server.js`
-
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+source ~/.bashrc
+nvm install 20.18.0
+nvm alias default 20.18.0
+node --version
+npm --version
+```
 ### Run and Test locally
 Open powershell and navigate to the server folder and run server.json
 Open second powershell and run this command
