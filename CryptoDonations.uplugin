@@ -1,0 +1,15 @@
+{
+    "FileVersion": 3,
+    "Version": 1,
+    "VersionName": "1.0",
+    "FriendlyName": "Crypto Donations",
+    "Description": "Accept crypto donations via NOWPayments",
+    "Category": "Monetization",
+    "Modules": [
+        {
+            "Name": "CryptoDonations",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ]
+}
