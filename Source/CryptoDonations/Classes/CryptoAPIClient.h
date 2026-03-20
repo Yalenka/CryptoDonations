@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "DonationSession.h"
 #include "CryptoAPIClient.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPaymentCreated, const FDonationSession&, Session);
@@ -21,12 +20,12 @@ public:
     UPROPERTY(BlueprintAssignable)
     FOnPaymentStatus OnPaymentStatus;
 
-    UFUNCTION(BlueprintCallable)
-    void CreateDonation(float Amount, FString Currency);
-
-    void CheckPaymentStatus(FString PaymentID);
-
 private:
+    UFUNCTION(BlueprintCallable)
+    void CreatePayment(float Amount, FString Currency, FString UserId);
+
+    UFUNCTION(BlueprintCallable)
+    void CheckPaymentStatus(FString PaymentID);
     void OnCreatePaymentResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bSuccess);
     void OnStatusResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bSuccess);
 };
