@@ -1,6 +1,20 @@
 #include "CryptoAPIClient.h"
 
-    FString Body = FString::Printf(TEXT("{\"amount\": %.2f, \"currency\": \"%s\"}"), Amount, *Currency);
+void UCryptoAPIClient::CreatePayment(float Amount, FString Currency, FString UserId)
+{
+    TSharedRef<IHttpRequest> Request = FHttpModule::Get().CreateRequest();
+
+    Request->SetURL(BackendURL + "/create-payment");
+    Request->SetVerb("POST");
+    Request->SetHeader("Content-Type", "application/json");
+
+    FString Body = FString::Printf(
+        TEXT("{\"amount\": %.2f, \"currency\": \"%s\", \"userId\": \"%s\"}"),
+        Amount,
+        *Currency,
+        *UserId
+    );
+
     Request->SetContentAsString(Body);
 
     Request->OnProcessRequestComplete().BindUObject(this, &UCryptoAPIClient::OnCreatePaymentResponse);
