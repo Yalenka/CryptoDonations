@@ -4,11 +4,13 @@ A Simple Crypto Donation plugin!
 A Simple plugin uses NowPayments API to enable your project to receive Crypto Donations!
 
 ## Usage:
-### Open file .env and Just update these with real data and run the backend
-
+### Open file .env and Just update these with real data
+```
 PORT=3000
 NOWPAYMENTS_API_KEY= your_real_crypto_wallet_api
 NOWPAYMENTS_IPN_SECRET= your_real_crypto_wallet_ipn
+```
+### Install the `node_modules` and run the `server.js`
 
 ### Run and Test locally
 Open powershell and navigate to the server folder and run server.json
