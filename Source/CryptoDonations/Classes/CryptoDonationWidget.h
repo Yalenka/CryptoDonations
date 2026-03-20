@@ -20,6 +20,9 @@ public:
 
 protected:
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnQRCodeReady(UTexture2D* Texture);
+
     UFUNCTION(BlueprintImplementableEvent)
     void OnPaymentCreatedBP(const FDonationSession& Session);
 
@@ -35,7 +38,13 @@ private:
     UCryptoDonationsSubsystem* Subsystem;
 
     // Internal handlers
+    UFUNCTION()
     void HandlePaymentCreated(const FDonationSession& Session);
+    UFUNCTION()
     void HandlePaymentConfirmed(int32 Reward);
+    UFUNCTION()
     void HandlePaymentFailed(const FString& Error);
+
+	void DownloadQRCode(FString URL);
+	void OnQRDownloaded(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bSuccess);
 };
