@@ -1,5 +1,10 @@
 #pragma once
-#include "Http.h"
+
+#include "CoreMinimal.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "HttpModule.h"
+#include "Interfaces/IHttpResponse.h"
+#include "TimerManager.h"
 #include "CryptoDonationsSubsystem.generated.h"
 
 USTRUCT(BlueprintType)
@@ -34,7 +39,7 @@ public:
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
     UFUNCTION(BlueprintCallable)
-    void StartDonation(float Amount, FString Currency);
+    void StartDonation(float Amount, FString Currency, FString UserId);
 
     UPROPERTY(BlueprintAssignable)
     FOnPaymentCreated OnPaymentCreated;
@@ -47,7 +52,7 @@ public:
 
 private:
 
-    FString BackendURL = "https://yourbackend.com";
+    FString BackendURL = "http://127.0.0.1:3000";
     FString CurrentPaymentID;
 
     FTimerHandle PollTimer;
