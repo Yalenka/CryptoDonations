@@ -10,7 +10,7 @@ PORT=3000
 NOWPAYMENTS_API_KEY= your_real_crypto_wallet_api
 NOWPAYMENTS_IPN_SECRET= your_real_crypto_wallet_ipn
 ```
-### Navigate to `crypto-backend` and Install the `node_modules` and run the `server.js`
+### Navigate to `crypto-backend` and Install the `node_modules`
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 source ~/.bashrc
