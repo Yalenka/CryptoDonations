@@ -21,6 +21,9 @@ public:
     FOnPaymentStatus OnPaymentStatus;
 
 private:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Crypto")
+    FString BackendURL = "http://127.0.0.1:3000";
+
     UFUNCTION(BlueprintCallable)
     void CreatePayment(float Amount, FString Currency, FString UserId);
 
