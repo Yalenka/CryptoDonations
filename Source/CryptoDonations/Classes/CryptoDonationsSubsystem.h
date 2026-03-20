@@ -53,7 +53,7 @@ public:
 
 private:
 
-    FString BackendURL = "http://127.0.0.1:3000";
+    FString BackendURL = TEXT("http://127.0.0.1:3000");
     FString CurrentPaymentID;
 
     FTimerHandle PollTimer;
