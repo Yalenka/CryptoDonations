@@ -1,4 +1,33 @@
 #include "CryptoDonationsSubsystem.h"
+#include "Json.h"
+#include "JsonUtilities.h"
+
+void UCryptoDonationsSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+    Super::Initialize(Collection);
+}
+
+void UCryptoDonationsSubsystem::StartDonation(float Amount, FString Currency, FString UserId)
+{
+    TSharedRef<IHttpRequest> Request = FHttpModule::Get().CreateRequest();
+
+    Request->SetURL(BackendURL + "/create-payment");
+    Request->SetVerb("POST");
+    Request->SetHeader("Content-Type", "application/json");
+
+    FString Body = FString::Printf(
+        TEXT("{\"amount\": %.2f, \"currency\": \"%s\", \"userId\": \"%s\"}"),
+        Amount,
+        *Currency,
+        *UserId
+    );
+
+    Request->SetContentAsString(Body);
+
+    Request->OnProcessRequestComplete().BindUObject(this, &UCryptoDonationsSubsystem::CreatePaymentResponse);
+    Request->ProcessRequest();
+}
+
 void UCryptoDonationsSubsystem::CreatePaymentResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bSuccess)
 {
     if (!bSuccess || !Response.IsValid())
@@ -10,13 +39,14 @@ void UCryptoDonationsSubsystem::CreatePaymentResponse(FHttpRequestPtr Request, F
     TSharedPtr<FJsonObject> JsonObject;
     TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
-    if (!FJsonSerializer::Deserialize(Reader, JsonObject))
+    if (!FJsonSerializer::Deserialize(Reader, JsonObject) || !JsonObject.IsValid())
     {
         OnPaymentFailed.Broadcast("Invalid server response");
         return;
     }
 
     FDonationSession Session;
+
     Session.PaymentID = JsonObject->GetStringField("payment_id");
     Session.PayAddress = JsonObject->GetStringField("pay_address");
     Session.PayAmount = JsonObject->GetStringField("pay_amount");
@@ -55,7 +85,7 @@ void UCryptoDonationsSubsystem::PaymentStatusResponse(FHttpRequestPtr Request, F
     TSharedPtr<FJsonObject> JsonObject;
     TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
 
-    if (!FJsonSerializer::Deserialize(Reader, JsonObject)) return;
+    if (!FJsonSerializer::Deserialize(Reader, JsonObject) || !JsonObject.IsValid()) return;
 
     FString Status = JsonObject->GetStringField("status");
 
@@ -64,7 +94,6 @@ void UCryptoDonationsSubsystem::PaymentStatusResponse(FHttpRequestPtr Request, F
         GetWorld()->GetTimerManager().ClearTimer(PollTimer);
 
         int32 Reward = JsonObject->GetIntegerField("reward");
-
         OnPaymentConfirmed.Broadcast(Reward);
     }
     else if (Status == "failed")
