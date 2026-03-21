@@ -44,3 +44,11 @@ configure project INI file with real data
 BackendURL=http://serverIp:port
 ```
 That's all!
+
+## Note:
+Right now plugin does:\
+❌ Currency lives in Widget (bad)\
+❌ Lost on reload / level change\
+❌ Not multiplayer safe\
+
+You can fix that by moving the logic to PlayerState!
