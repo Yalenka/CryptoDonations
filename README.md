@@ -1,16 +1,19 @@
 # CryptoDonations
-A Simple Crypto Donation plugin!
 
-A Simple plugin uses NowPayments API to enable your project to receive Crypto Donations!
+A Simple plugin uses NowPayments API to enable your UE5 project to receive Crypto Donations!
 
-## Usage:
+## Requirnment:
+Linux to run backend!.. you can use WSL in windows to run linux shells.
+Unreal Engine 5 Project to install plugin!
+
+## Backend Usage:
 ### Open file .env and Just update these with real data
 ```
 PORT=3000
 NOWPAYMENTS_API_KEY= your_real_crypto_wallet_api
 NOWPAYMENTS_IPN_SECRET= your_real_crypto_wallet_ipn
 ```
-### Navigate to `crypto-backend` and Install the `node_modules`
+### Navigate to `crypto-backend` and Install the `node_modules` [copy paste the full command]
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 source ~/.bashrc
@@ -19,9 +22,11 @@ nvm alias default 20.18.0
 node --version
 npm --version
 ```
-### Run and Test locally
+### Run Server Locally
 Open powershell and navigate to the server folder and run server.json
-Open second powershell and run this command
+
+### Test Server Locally
+Open second powershell and run this command [copy paste the full command]
 ```
 Invoke-RestMethod -Uri "http://localhost:3000/create-payment" `
 >> -Method POST `
