@@ -22,6 +22,7 @@ nvm alias default 20.18.0
 node --version
 npm --version
 npm install bcryptjs
+npm install uuid
 ```
 ### Run Server Locally
 Open powershell and navigate to the server folder and run server.json
