@@ -52,7 +52,7 @@ app.post("/create-payment", async (req, res) => {
     );
 
     // Logging
-    console.log("💰 New payment created:");
+    console.log("New payment created:");
     console.log("ID:", data.payment_id);
     console.log("User:", userId);
     console.log("USD:", amount);
@@ -70,7 +70,7 @@ app.post("/create-payment", async (req, res) => {
   } catch (err) {
     const apiError = err.response?.data;
 
-    console.error("❌ PAYMENT ERROR:");
+    console.error("PAYMENT ERROR:");
     console.error(apiError || err.message);
 
     // Handle minimum amount error cleanly
@@ -102,7 +102,7 @@ app.post("/webhook", (req, res) => {
       .digest("hex");
 
     if (hmac !== signature) {
-      console.log("❌ Invalid webhook signature");
+      console.log("Invalid webhook signature");
       return res.sendStatus(403);
     }
 
@@ -130,7 +130,7 @@ app.post("/webhook", (req, res) => {
             ["finished", payment.payment_id]
           );
 
-          console.log("✅ Payment confirmed:");
+          console.log("Payment confirmed:");
           console.log("ID:", payment.payment_id);
           console.log("User:", row.userId);
           console.log("Reward:", row.reward);
@@ -142,7 +142,7 @@ app.post("/webhook", (req, res) => {
     res.sendStatus(200);
 
   } catch (err) {
-    console.error("❌ WEBHOOK ERROR:", err);
+    console.error("WEBHOOK ERROR:", err);
     res.sendStatus(500);
   }
 });
@@ -166,5 +166,5 @@ app.get("/payment-status/:id", (req, res) => {
 
 // ===============================
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
