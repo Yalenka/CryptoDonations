@@ -33,7 +33,7 @@ Invoke-RestMethod -Uri "http://localhost:3000/create-payment" `
 >> -Headers @{ "Content-Type" = "application/json" } `
 >> -Body '{"amount":100,"currency":"eth","userId":"test123"}'
 ```
-You should see the response in the local Server
+You should see the response in the local Server\
 You should see another response online in your wallet at :: account.nowpayments.io/payments
 
 ## Expose the plugin API to blueprints to use it in the UMG or code your UMG in C++ to direct interact with plugin API
