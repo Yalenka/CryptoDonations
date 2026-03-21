@@ -23,6 +23,7 @@ node --version
 npm --version
 npm install bcryptjs
 npm install uuid
+npm install nodemailer
 ```
 ### Run Server Locally
 Open powershell and navigate to the server folder and run server.json
