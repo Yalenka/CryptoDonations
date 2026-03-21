@@ -38,7 +38,7 @@ You should see another response online in your wallet at :: account.nowpayments.
 
 ### Expose the plugin API to blueprints to use it in the UMG or code your UMG in C++ to direct interact with plugin API
 
-configure project INI file
+configure project INI file with real data
 ```
 [Crypto]
 BackendURL=http://serverIp:port
