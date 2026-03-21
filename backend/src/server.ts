@@ -1,9 +1,7 @@
-require("dotenv").config();
-
-const express = require("express");
-const axios = require("axios");
-const crypto = require("crypto");
-const db = require("./db");
+import express from "express";
+import axios from "axios";
+import crypto from "crypto";
+import { db } from "./db";
 
 const app = express();
 app.use(express.json());
@@ -13,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // ===============================
 // Reward calculation
 // ===============================
-function calculateReward(amount) {
+function calculateReward(amount: number) {
   return Math.floor(amount * 120);
 }
 
@@ -33,13 +31,13 @@ app.post("/create-payment", async (req, res) => {
       {
         price_amount: amount,
         price_currency: "usd",
-        pay_currency: currency.toLowerCase()
+        pay_currency: currency.toLowerCase(),
       },
       {
         headers: {
-          "x-api-key": process.env.NOWPAYMENTS_API_KEY
-        }
-      }
+          "x-api-key": process.env.NOWPAYMENTS_API_KEY,
+        },
+      },
     );
 
     const data = response.data;
@@ -48,7 +46,7 @@ app.post("/create-payment", async (req, res) => {
     // Save to DB
     db.run(
       `INSERT INTO payments (id, userId, status, reward) VALUES (?, ?, ?, ?)`,
-      [data.payment_id, userId, "waiting", reward]
+      [data.payment_id, userId, "waiting", reward],
     );
 
     // Logging
@@ -64,9 +62,8 @@ app.post("/create-payment", async (req, res) => {
       payment_id: data.payment_id,
       pay_address: data.pay_address,
       pay_amount: data.pay_amount,
-      qr_code_url: data.qr_code_url
+      qr_code_url: data.qr_code_url,
     });
-
   } catch (err) {
     const apiError = err.response?.data;
 
@@ -77,13 +74,13 @@ app.post("/create-payment", async (req, res) => {
     if (apiError?.code === "AMOUNT_MINIMAL_ERROR") {
       return res.status(400).json({
         error: "Amount too low for selected cryptocurrency",
-        details: apiError.message
+        details: apiError.message,
       });
     }
 
     res.status(500).json({
       error: "Payment creation failed",
-      details: apiError
+      details: apiError,
     });
   }
 });
@@ -95,6 +92,10 @@ app.post("/webhook", (req, res) => {
   try {
     const signature = req.headers["x-nowpayments-sig"];
     const secret = process.env.NOWPAYMENTS_IPN_SECRET;
+    if (!secret) {
+      // ...
+      return;
+    }
 
     const hmac = crypto
       .createHmac("sha512", secret)
@@ -109,7 +110,6 @@ app.post("/webhook", (req, res) => {
     const payment = req.body;
 
     if (payment.payment_status === "finished") {
-
       db.get(
         `SELECT * FROM payments WHERE id = ?`,
         [payment.payment_id],
@@ -125,22 +125,21 @@ app.post("/webhook", (req, res) => {
             return;
           }
 
-          db.run(
-            `UPDATE payments SET status = ? WHERE id = ?`,
-            ["finished", payment.payment_id]
-          );
+          db.run(`UPDATE payments SET status = ? WHERE id = ?`, [
+            "finished",
+            payment.payment_id,
+          ]);
 
           console.log("Payment confirmed:");
           console.log("ID:", payment.payment_id);
           console.log("User:", row.userId);
           console.log("Reward:", row.reward);
           console.log("------------");
-        }
+        },
       );
     }
 
     res.sendStatus(200);
-
   } catch (err) {
     console.error("WEBHOOK ERROR:", err);
     res.sendStatus(500);
@@ -160,7 +159,7 @@ app.get("/payment-status/:id", (req, res) => {
       }
 
       res.json(row);
-    }
+    },
   );
 });
 
