@@ -3,7 +3,7 @@
 A Simple plugin uses NowPayments API to enable your UE5 project to receive Crypto Donations!
 
 ## Requirnment:
-Linux to run backend!.. you can use WSL in windows to run linux shells.__
+Linux to run backend!.. you can use WSL in windows to run linux shells. _ _
 Unreal Engine 5 Project to install plugin!
 
 ## Backend Usage:
