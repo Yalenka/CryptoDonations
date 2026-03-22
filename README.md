@@ -1,40 +1,57 @@
-# CryptoDonations – UE5 Plugin
+# CryptoDonations
 
-Simple Unreal Engine 5 plugin that lets players **donate cryptocurrency** to your project using the **NowPayments** API.
+A Simple plugin uses NowPayments API to enable your UE5 project to receive Crypto Donations!
 
-## Features (current – early 2026)
+## Requirnment:
+Linux to run backend!.. you can use WSL in windows to run linux shells.\
+Unreal Engine 5 Project to install plugin!
 
-- Create payment links / invoices via NowPayments
-- Basic HTTP communication: UE5 → your backend
-- Blueprint-friendly node: `CreatePayment`
+## Backend Usage:
+### Open file .env and Just update these with real data
+```
+PORT=3000
+NOWPAYMENTS_API_KEY= your_real_crypto_wallet_api
+NOWPAYMENTS_IPN_SECRET= your_real_crypto_wallet_ipn
+```
+### Navigate to `crypto-backend` and Install the `node_modules` [copy paste the full command]
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+source ~/.bashrc
+nvm install 20.18.0
+nvm alias default 20.18.0
+node --version
+npm --version
+npm install bcryptjs
+npm install uuid
+npm install nodemailer express-rate-limit
+```
+### Run Server Locally
+Open powershell and navigate to the server folder and run server.json
 
-**Known limitations**
+### Test Server Locally
+Open second powershell and run this command [copy paste the full command]
+```
+Invoke-RestMethod -Uri "http://localhost:3000/create-payment" `
+>> -Method POST `
+>> -Headers @{ "Content-Type" = "application/json" } `
+>> -Body '{"amount":100,"currency":"eth","userId":"test123"}'
+```
+You should see the response in the local Server\
+You should see another response online in your wallet at :: account.nowpayments.io/payments
 
-- Donation / currency state lives only in Widget → lost on reload / level change
-- **Not multiplayer safe** (no replication)
-- Basic error handling
-- No payment status polling or webhook support yet
+### Expose the plugin API to blueprints to use it in the UMG or code your UMG in C++ to direct interact with plugin API
 
-**Recommended improvement**  
-Move important logic & state to **PlayerState** (or GameState for global tracking).
+configure project INI file with real data
+```
+[Crypto]
+BackendURL=http://serverIp:port
+```
+That's all!
 
-## Requirements
+## Note:
+Right now plugin does:\
+❌ Currency lives in Widget (bad)\
+❌ Lost on reload / level change\
+❌ Not multiplayer safe\
 
-- Unreal Engine 5.3 / 5.4 (tested up to 5.4)
-- Node.js 20.x for the backend
-- NowPayments merchant account (API key + IPN secret)
-- Linux or WSL2 (Windows) to run the backend
-
-## Installation & Setup
-
-### 1. Install the Plugin in Your UE5 Project
-
-1. Download or clone this repository
-2. Copy the `CryptoDonations` folder into your project's `Plugins/` directory  
-   → final path: `YourProject/Plugins/CryptoDonations/`
-3. Open your project → **Edit → Plugins** → search "CryptoDonations" → enable it
-4. Restart the Unreal Editor
-
-### 2. Backend Setup (Node.js server)
-
-#### Folder structure
+You can fix that by moving the logic to PlayerState!
