@@ -1,6 +1,6 @@
-const sqlite3 = require("sqlite3").verbose();
+import sqlite3 from "sqlite3";
 
-const db = new sqlite3.Database("./payments.db");
+export const db = new sqlite3.Database("./payments.db");
 
 db.serialize(() => {
   db.run(`
@@ -13,5 +13,3 @@ db.serialize(() => {
     )
   `);
 });
-
-module.exports = db;
