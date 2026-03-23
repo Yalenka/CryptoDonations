@@ -24,6 +24,7 @@ npm --version
 npm install bcryptjs
 npm install uuid
 npm install nodemailer express-rate-limit
+npm install helmet
 ```
 ### Run Server Locally
 Open powershell and navigate to the server folder and run server.json
