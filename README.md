@@ -50,7 +50,7 @@ BackendURL=http://serverIp:port
 That's all!
 
 ## Note:
-Right now plugin does some bad practices:
+Right now plugin does some bad practices:\
 Currency lives in Widget (bad)\
 Lost on reload / level change\
 
