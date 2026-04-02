@@ -51,7 +51,7 @@ That's all!
 
 ## Note:
 Right now plugin does some bad practices:
-Currency lives in Widget (bad)
-Lost on reload / level change
+Currency lives in Widget (bad)/
+Lost on reload / level change/
 
 You can fix that by moving the logic to PlayerState!
